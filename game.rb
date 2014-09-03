@@ -110,4 +110,3 @@ print "Dealer "
 game.score(game.dealer_hand)
 game.dealer_play
 
-
