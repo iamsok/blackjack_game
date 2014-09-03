@@ -2,9 +2,11 @@ require_relative 'card'
 require 'pry'
 
 class Deck
+  attr_accessor :deck
 
 SUITS = ['♥', '♦', '♠', '♣']
 FACES = ['K', 'Q', 'J', 'A']
+
   def initialize
     @deck = make_deck
   end
@@ -13,10 +15,10 @@ FACES = ['K', 'Q', 'J', 'A']
     deck = []
     SUITS.each do |suit|
       (2..10).each do |value|
-        deck << Card.new(suit, value)
+        deck << Card.new(value, suit)
       end
-      FACES.each do |face|
-        deck << Card.new(suit, face)
+      FACES.each do |value|
+        deck << Card.new(value, suit)
       end
     end
     deck

@@ -5,11 +5,11 @@ require 'pry'
 class Hand
   attr_accessor :hand
 
-  def initialize(hand)
-    @hand = hand
+  def initialize
+    @hand = []
   end
 
-  def add_cards(card)
+  def add_card(card)
     @hand << card
   end
 
