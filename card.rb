@@ -1,3 +1,5 @@
+require 'pry'
+
 class Card
   attr_reader :suit, :value
 
@@ -13,4 +15,11 @@ class Card
   def is_ace?
     @value == 'A'
   end
+
+  def is_value?
+    !self.is_ace? && !self.is_face?
+  end
 end
+
+card = Card.new('♥', 5)
+
