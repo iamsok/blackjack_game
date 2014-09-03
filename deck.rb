@@ -30,4 +30,3 @@ FACES = ['K', 'Q', 'J', 'A']
     @deck.pop
   end
 end
-binding.pry

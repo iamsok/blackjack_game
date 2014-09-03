@@ -34,10 +34,4 @@ class Hand
   end
 end
 
-Card.new('♥', 5)
-# cards = [Card.new('♥', 5),Card.new('♥', 5),Card.new('♥', 5)]
-# hand = Hand.new(cards)
-hand2 = Hand.new([Card.new('♥', 'A'),Card.new('♥', 5),Card.new('♥', 5)])
-hand3 = Hand.new([Card.new('♥', 'K'),Card.new('♥', 'Q'),Card.new('♥', 'A')])
 
-binding.pry
