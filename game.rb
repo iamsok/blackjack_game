@@ -29,7 +29,7 @@ class Game
   end
 
   def hand_dealt(card)
-    puts "was dealt #{card}\n"
+    puts "was dealt #{card}"
   end
 
   def score(hand)
@@ -44,6 +44,7 @@ class Game
       player_hand.add_card(card)
       hand_dealt(card)
       score(player_hand)
+      bust?
       play
     elsif input == "s"
       score(player_hand)
@@ -75,21 +76,32 @@ class Game
     puts "Please place your bets"
     puts
   end
+
+  def bust?
+    if score > 21
+      puts "Sorry you have busted!"
+      break
+    end
+  end
 end
 game = Game.new
 
 game.start_game
 game.deck.shuffle!
+
 game.let_the_games_begin
+
 game.player_hand.cards.each do |card|
   print "Player "
   game.hand_dealt(card)
 end
-dealer_card = game.hand_dealt(game.dealer_hand.cards[0])
-puts "Dealer #{dealer_card}"
 print "Player "
 game.score(game.player_hand)
+print "Dealer "
+game.hand_dealt(game.dealer_hand.cards[0])
+
 game.play
+
 game.dealer_hand.cards.each do |card|
   print "Dealer "
   game.hand_dealt(card)
