@@ -3,21 +3,21 @@ require 'pry'
 
 
 class Hand
-  attr_accessor :hand
+  attr_accessor :cards
 
   def initialize
-    @hand = []
+    @cards = []
   end
 
   def add_card(card)
-    @hand << card
+    @cards << card
   end
 
   def score
     score = 0
     ace_counter = 0
 
-    @hand.each do |card|
+    cards.each do |card|
       if card.is_face?
         score += 10
       elsif card.is_value?
@@ -26,10 +26,12 @@ class Hand
         score += 11
         ace_counter += 1
       end
+
       if score > 21
         score -= (ace_counter) * 10
       end
     end
+
     score
   end
 end

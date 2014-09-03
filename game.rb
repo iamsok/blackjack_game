@@ -29,15 +29,15 @@ class Game
   end
 
   def hand_dealt(card)
-    puts "\nwas dealt #{card}"
+    puts "was dealt #{card}\n"
   end
 
   def score(hand)
-    puts "score: #{hand.score}\n"
+    puts "score: #{hand.score}\n\n"
   end
 
   def play
-    print "Hit or Stand (h/s): "
+    print "\nHit or Stand (h/s): "
     input = gets.chomp.downcase
     if  input == "h"
       card = deck.deal_card
@@ -72,12 +72,30 @@ class Game
     puts "Min: $100.00 Max: $5,000.00"
     puts "Dealer Must Hit Soft 17"
     puts "Blackjack Pays 3 to 2"
-    puts "Please place your bets\n"
-    if dealer_hit?
-      dealer_hand.card
-    end
+    puts "Please place your bets"
+    puts
   end
-
 end
 game = Game.new
-binding.pry
+
+game.start_game
+game.deck.shuffle!
+game.let_the_games_begin
+game.player_hand.cards.each do |card|
+  print "Player "
+  game.hand_dealt(card)
+end
+dealer_card = game.hand_dealt(game.dealer_hand.cards[0])
+puts "Dealer #{dealer_card}"
+print "Player "
+game.score(game.player_hand)
+game.play
+game.dealer_hand.cards.each do |card|
+  print "Dealer "
+  game.hand_dealt(card)
+end
+print "Dealer "
+game.score(game.dealer_hand)
+game.dealer_play
+
+
