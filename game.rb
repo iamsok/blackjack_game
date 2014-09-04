@@ -12,15 +12,18 @@ class Game
     @dealer_hand = Hand.new
   end
 
-  def let_the_games_begin
+  def initial_deal
     [@player_hand, @dealer_hand].each do |hand|
       deal_cards_to_player(hand, 2)
     end
+    @player_hand.cards.each do |card|
+      puts hand_dealt(card, "Player")
+    end
+    puts score(@player_hand, "Player")
+    dealer_card = @dealer_hand.cards[0]
+    puts hand_dealt(dealer_card, "Dealer")
   end
 
-  def shuffle
-    @deck.shuffle!
-  end
 
   def deal_cards_to_player(player, count=1)
     count.times do
@@ -28,39 +31,53 @@ class Game
     end
   end
 
-  def hand_dealt(card)
-    puts "was dealt #{card}"
+  def hand_dealt(card, name)
+    "#{name} dealt #{card}"
   end
 
-  def score(hand)
-    puts "score: #{hand.score}\n\n"
+  def score(hand, name)
+    "#{name} score: #{hand.score}\n\n"
+  end
+
+  def bust?(hand)
+    hand.score > 21
   end
 
   def play
-    print "\nHit or Stand (h/s): "
-    input = gets.chomp.downcase
-    if  input == "h"
-      card = deck.deal_card
-      player_hand.add_card(card)
-      hand_dealt(card)
-      score(player_hand)
-      bust?
-      play
-    elsif input == "s"
-      score(player_hand)
-    else
-      puts "Please select (h)it or (s)tay\n"
-      play
+    input = nil
+    while input != 's'
+      print "\nHit or Stand (h/s): "
+      input = gets.chomp.downcase
+      if  input == "h"
+        card = deck.deal_card
+        player_hand.add_card(card)
+        puts hand_dealt(card, "Player")
+        puts score(player_hand, "Player")
+        if bust?(player_hand)
+          puts "Bust! You lose."
+          break
+        end
+      elsif input == "s"
+        puts score(player_hand, "Player")
+      else
+        puts "Please select (h)it or (s)tay\n"
+      end
     end
   end
 
   def dealer_play
-    if dealer_hit?
-      card = deck.deal_card
-      dealer_hand.add_card(card)
-      hand_dealt(card)
-      score(dealer_hand)
-      dealer_play
+    if !bust?(@player_hand)
+      @dealer_hand.cards.each do |card|
+        puts hand_dealt(card, "Dealer")
+      end
+      puts score(@dealer_hand, "Dealer")
+
+      while dealer_hit?
+        card = deck.deal_card
+        dealer_hand.add_card(card)
+        puts hand_dealt(card, "Dealer")
+        puts score(dealer_hand, "Dealer")
+      end
     end
   end
 
@@ -68,45 +85,28 @@ class Game
     dealer_hand.score < 17
   end
 
+  def who_wins
+    if !bust?(player_hand)
+      if player_hand.score > dealer_hand.score
+        "You Win!"
+      else
+        "You Lose!"
+      end
+    end
+  end
+
   def start_game
     puts "Welcome to Casino de Peter"
     puts "Min: $100.00 Max: $5,000.00"
     puts "Dealer Must Hit Soft 17"
     puts "Blackjack Pays 3 to 2"
-    puts "Please place your bets"
-    puts
+    puts "Please place your bets\n\n"
+    initial_deal
+    play
+    dealer_play
+    who_wins
   end
 
-  def bust?
-    if score > 21
-      puts "Sorry you have busted!"
-      break
-    end
-  end
 end
-game = Game.new
 
-game.start_game
-game.deck.shuffle!
-
-game.let_the_games_begin
-
-game.player_hand.cards.each do |card|
-  print "Player "
-  game.hand_dealt(card)
-end
-print "Player "
-game.score(game.player_hand)
-print "Dealer "
-game.hand_dealt(game.dealer_hand.cards[0])
-
-game.play
-
-game.dealer_hand.cards.each do |card|
-  print "Dealer "
-  game.hand_dealt(card)
-end
-print "Dealer "
-game.score(game.dealer_hand)
-game.dealer_play
 

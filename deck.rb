@@ -21,7 +21,7 @@ FACES = ['K', 'Q', 'J', 'A']
         deck << Card.new(value, suit)
       end
     end
-    deck
+    deck.shuffle!
   end
 
   def shuffle!
