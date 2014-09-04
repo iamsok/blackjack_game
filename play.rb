@@ -9,6 +9,10 @@ require 'pry'
   def prompt
     print "Play again? "
     input = gets.chomp.downcase
+    while input != 'n' && input != 'y'
+      print "Please enter y or n: "
+      input = gets.chomp.downcase
+    end
     input
   end
 
@@ -16,5 +20,4 @@ require 'pry'
     game = Game.new
     game.start_game
     input = prompt
-    puts
   end
