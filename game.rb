@@ -104,7 +104,7 @@ class Game
     initial_deal
     play
     dealer_play
-    who_wins
+    puts who_wins
   end
 
 end
